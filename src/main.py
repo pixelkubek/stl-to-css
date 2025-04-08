@@ -64,8 +64,8 @@ def align_p1_p2(triangle: triangle_3d) -> triangle_3d:
 
     return triangle_3d([
         p1,
-        np.matmul(create_z_rotation_matrix(-angle_of_rotation), p2),
-        np.matmul(create_z_rotation_matrix(-angle_of_rotation), p3)
+        np.matmul(create_y_rotation_matrix(pi/2 - polar_angle), np.matmul(create_z_rotation_matrix(-angle_of_rotation), p2)),
+        np.matmul(create_y_rotation_matrix(pi/2 - polar_angle), np.matmul(create_z_rotation_matrix(-angle_of_rotation), p3))
     ])
 
 my_trig = triangle_3d([
