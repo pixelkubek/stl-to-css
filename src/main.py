@@ -73,22 +73,26 @@ def align_p1_p2_p3(triangle: triangle_3d) -> triangle_3d:
     p1, p2, p3 = align_p1_p2(triangle).vertices
     
     projected_p3 = p3[1:3, 0] # p3 projected to yz plane
+
+    print(projected_p3)
     up_vector = np.array([0, 1]).reshape(-1, 1)
 
     angle = acos(np.dot(projected_p3, up_vector).item() / (LA.norm(projected_p3) * LA.norm(up_vector)))
 
-    print(angle)
+    print(angle, angle / pi * 180)
 
     return triangle_3d([
         p1,
         p2,
-        np.matmul(create_x_rotation_matrix(-angle), p3)
+        np.matmul(create_x_rotation_matrix(angle), p3)
     ])
 
 my_trig = triangle_3d([
-    np.array([-300, 100, 100]).reshape(-1, 1),
-    np.array([-300, 200, 100]).reshape(-1, 1),
-    np.array([-300, 150, 50]).reshape(-1, 1)
+    np.array([0, -40, 0]).reshape(-1, 1),
+    np.array([40, 0, 0]).reshape(-1, 1),
+    np.array([0, 0, 40]).reshape(-1, 1)
 ])
+
+print(align_p1_p2(my_trig))
 
 print(align_p1_p2_p3(my_trig))
