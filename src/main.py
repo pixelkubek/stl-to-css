@@ -56,6 +56,7 @@ def align_p1(triangle: triangle_3d) -> triangle_3d:
     p1, p2, p3 = triangle.vertices
     return triangle_3d([p1 - p1, p2 - p1, p3 - p1])
 
+# Rotates triangle so that p1 has coordinates [0, 0, 0] and p2 is on the positive x axis
 def align_p1_p2(triangle: triangle_3d) -> triangle_3d:
     p1, p2, p3 = align_p1(triangle).vertices
     polar_angle = acos(p2[2, 0] / LA.norm(p2))
