@@ -17,6 +17,19 @@ class transformation_3d(ABC):
     def transform(self, point):
         pass
 
+@dataclass
+class translate_3d(transformation_3d):
+    x: float
+    y: float
+    z: float
+
+    def inverted(self):
+        return translate_3d(-self.x, -self.y, -self.z)
+    
+    def transform(self, point):
+        return point - np.array([self.x, self.y, self.z]).reshape(-1, 1)
+
+@dataclass
 class rotation_3d(transformation_3d):
     angle_radians: float
 
@@ -30,7 +43,7 @@ class rotation_3d(transformation_3d):
 @dataclass
 class rotationX(rotation_3d):
     def __init__(self, angle_radians):
-        self.angle_radians = angle_radians
+        super().__init__(angle_radians)
 
     def inverted(self):
         return rotationX(-self.angle_radians)
@@ -45,7 +58,7 @@ class rotationX(rotation_3d):
 @dataclass
 class rotationY(rotation_3d):
     def __init__(self, angle_radians):
-        self.angle_radians = angle_radians
+        super().__init__(angle_radians)
 
     def inverted(self):
         return rotationY(-self.angle_radians)
@@ -60,7 +73,7 @@ class rotationY(rotation_3d):
 @dataclass
 class rotationZ(rotation_3d):
     def __init__(self, angle_radians):
-        self.angle_radians = angle_radians
+        super().__init__(angle_radians)
 
     def inverted(self):
         return rotationZ(-self.angle_radians)

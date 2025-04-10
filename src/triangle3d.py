@@ -1,11 +1,11 @@
 from dataclasses import dataclass
-from math import sin, cos, pi, acos
+from math import pi, acos
 
 import numpy as np
 from numpy import linalg as LA
 
 from html import wrap_html
-from transformations import rotationX, rotationY, rotationZ, transformation_3d
+from transformations import translate_3d, rotationX, rotationY, rotationZ, transformation_3d
 
 def sgn(x: float):
     if x < 0:
@@ -33,9 +33,11 @@ class triangle_3d:
 
 # Moves triangle so that p1 has coordinates [0, 0, 0]
 def align_p1(triangle: triangle_3d) -> triangle_3d:
-    p1, p2, p3 = triangle.vertices
-    print("move: ", p1)
-    return triangle_3d([p1 - p1, p2 - p1, p3 - p1])
+    translation_3d = translate_3d(*get_xyz(triangle.vertices[0]))
+
+    triangle.transform(translation_3d)
+
+    return triangle
 
 # Rotates triangle so that p1 has coordinates [0, 0, 0] and p2 is on the positive x axis
 def align_p2(triangle: triangle_3d) -> triangle_3d:
