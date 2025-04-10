@@ -7,7 +7,7 @@ def wrap_html(type: str, body: str = "", attributes: dict = dict()) -> str:
         attributes_list.append(f"{key}=\"{val}\"")
     return f"<{type} {" ".join(attributes_list)}>{body}</{type}>"
 
-def html_css_of_triangle(triangle: triangle_3d, transforms: list[transformation_3d], html_class: str, size, unit: str = 'px') -> tuple[str, str]:
+def html_css_of_triangle(triangle: triangle_3d, transforms: list[transformation_3d], html_class: str, scale = 1, unit: str = 'px') -> tuple[str, str]:
         _, p2, p3 = triangle.vertices
         p2_x, _, p2_z = get_xyz(p2)
         p3_x, _, p3_z = get_xyz(p3)
@@ -25,7 +25,7 @@ def html_css_of_triangle(triangle: triangle_3d, transforms: list[transformation_
         transforms = [transformation.inverted() for transformation in reversed(transforms)]
         for transformation in transforms:
             html = wrap_html("div", html, {"class":f'{html_class} object3d-element transformation-wrapper transformation-{counter}-wrapper'})
-            transformation_css = transformation.to_css()
+            transformation_css = transformation.to_css(scale, unit)
             css.append(f'div.{html_class}.transformation-{counter}-wrapper {transformation_css}')
             counter += 1
 

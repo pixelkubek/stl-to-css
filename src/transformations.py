@@ -6,7 +6,7 @@ import numpy as np
 
 class transformation_3d(ABC):
     # @abstractmethod
-    def to_css(self):
+    def to_css(self, scale, unit: str = 'px'):
         return '{}' 
 
     @abstractmethod
@@ -28,6 +28,9 @@ class translate_3d(transformation_3d):
     
     def transform(self, point):
         return point - np.array([self.x, self.y, self.z]).reshape(-1, 1)
+    
+    def to_css(self, scale, unit: str = 'px'):
+        return f'{{transform-origin: top left;transform: translate3d({self.x * scale}{unit},{self.z * scale}{unit},{self.y * scale}{unit});}}' 
 
 @dataclass
 class rotation_3d(transformation_3d):
@@ -55,7 +58,7 @@ class rotationX(rotation_3d):
             [0, sin(self.angle_radians), cos(self.angle_radians)]
         ])
     
-    def to_css(self):
+    def to_css(self, scale, unit: str = 'px'):
         return f'{{transform-origin: top left;transform: rotateX({self.angle_radians}rad);}}' 
     
 @dataclass
@@ -72,6 +75,10 @@ class rotationY(rotation_3d):
             [0, 1, 0],
             [-sin(self.angle_radians), 0, cos(self.angle_radians)]
         ])
+
+    def to_css(self, scale, unit: str = 'px'):
+        # css has different axis names for y and z
+        return f'{{transform-origin: top left;transform: rotateZ({self.angle_radians}rad);}}' 
     
 @dataclass
 class rotationZ(rotation_3d):
@@ -87,3 +94,7 @@ class rotationZ(rotation_3d):
             [sin(self.angle_radians), cos(self.angle_radians), 0],
             [0, 0, 1]
         ])
+
+    def to_css(self, scale, unit: str = 'px'):
+        # css has different axis names for y and z
+        return f'{{transform-origin: top left;transform: rotateY({self.angle_radians}rad);}}' 
