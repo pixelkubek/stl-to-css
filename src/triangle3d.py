@@ -32,16 +32,16 @@ class triangle_3d:
         self.vertices = [transformation.transform(p) for p in self.vertices]
 
 # Moves triangle so that p1 has coordinates [0, 0, 0]
-def align_p1(triangle: triangle_3d) -> triangle_3d:
+def align_p1(triangle: triangle_3d) -> tuple[triangle_3d, list[transformation_3d]]:
     translation_3d = translate_3d(*get_xyz(triangle.vertices[0]))
 
     triangle.transform(translation_3d)
 
-    return triangle
+    return triangle, [translation_3d]
 
 # Rotates triangle so that p1 has coordinates [0, 0, 0] and p2 is on the positive x axis
-def align_p2(triangle: triangle_3d) -> triangle_3d:
-    p1, p2, p3 = triangle.vertices
+def align_p2(triangle: triangle_3d) -> tuple[triangle_3d, list[transformation_3d]]:
+    _, p2, _ = triangle.vertices
     polar_angle = acos(p2[2, 0] / LA.norm(p2))
     angle_of_rotation = sgn(p2[1, 0]) * acos(p2[0, 0] / LA.norm(p2[:2, 0]))
     print(polar_angle / pi * 180, angle_of_rotation / pi * 180)
@@ -58,10 +58,10 @@ def align_p2(triangle: triangle_3d) -> triangle_3d:
 
     triangle.transform(y_rotation)
 
-    return triangle
+    return triangle, [z_rotation, y_rotation]
 
-def align_p3(triangle: triangle_3d) -> triangle_3d:
-    p1, p2, p3 = triangle.vertices
+def align_p3(triangle: triangle_3d) -> tuple[triangle_3d, list[transformation_3d]]:
+    _, _, p3 = triangle.vertices
     
     projected_p3 = p3[1:3, 0] # p3 projected to yz plane
 
@@ -78,7 +78,16 @@ def align_p3(triangle: triangle_3d) -> triangle_3d:
     triangle.transform(x_rotation)
     print(triangle)
 
-    return triangle
+    return triangle, [x_rotation]
 
-def align_p1_p2_p3(triangle: triangle_3d):
-    return align_p3(align_p2(align_p1(triangle)))
+def align_p1_p2_p3(triangle: triangle_3d) -> tuple[triangle_3d, list[transformation_3d]]:
+    all_transformations = []
+    triangle, tansformations = align_p1(triangle)
+    all_transformations.extend(tansformations)
+
+    triangle, tansformations = align_p2(triangle)
+    all_transformations.extend(tansformations)    
+    
+    triangle, tansformations = align_p3(triangle)
+    all_transformations.extend(tansformations)
+    return triangle, all_transformations

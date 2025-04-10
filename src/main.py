@@ -14,5 +14,7 @@ my_trig = triangle_3d([
 ])
 
 
-print(align_p1_p2_p3(my_trig).to_html_css("face1", 100))
+triangle, transformations = align_p1_p2_p3(my_trig)
+
+print(triangle.to_html_css("face1", 100), transformations)
 
