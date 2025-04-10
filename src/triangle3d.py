@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from math import pi, acos
+from math import pi, acos, asin, sin
 
 import numpy as np
 from numpy import linalg as LA
@@ -18,6 +18,13 @@ def get_xyz(point):
 @dataclass
 class triangle_3d:
     vertices: list[np.ndarray]
+
+    def __init__(self, p1, p2, p3):
+        self.vertices = [
+            np.array(p1).reshape(-1, 1),
+            np.array(p2).reshape(-1, 1),
+            np.array(p3).reshape(-1, 1)
+        ]
     
     def transform(self, transformation: transformation_3d):
         self.vertices = [transformation.transform(p) for p in self.vertices]
@@ -60,7 +67,8 @@ def align_p3(triangle: triangle_3d) -> tuple[triangle_3d, list[transformation_3d
     print(projected_p3)
     up_vector = np.array([0, 1]).reshape(-1, 1)
 
-    angle = acos(np.dot(projected_p3, up_vector).item() / (LA.norm(projected_p3) * LA.norm(up_vector)))
+    # angle = acos(np.dot(projected_p3, up_vector).item() / (LA.norm(projected_p3) * LA.norm(up_vector)))
+    angle = sgn(projected_p3[0]) * acos(projected_p3[1] / LA.norm(projected_p3))
 
     print(angle, angle / pi * 180)
     print("x rotate: ", angle)
@@ -74,12 +82,16 @@ def align_p3(triangle: triangle_3d) -> tuple[triangle_3d, list[transformation_3d
 
 def align_p1_p2_p3(triangle: triangle_3d) -> tuple[triangle_3d, list[transformation_3d]]:
     all_transformations = []
+    print("0: ", triangle)
     triangle, tansformations = align_p1(triangle)
     all_transformations.extend(tansformations)
+    print("1: ", triangle)
 
     triangle, tansformations = align_p2(triangle)
     all_transformations.extend(tansformations)    
+    print("2: ", triangle)
     
     triangle, tansformations = align_p3(triangle)
     all_transformations.extend(tansformations)
+    print("3: ", triangle)
     return triangle, all_transformations

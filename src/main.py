@@ -4,22 +4,39 @@ from math import sin, cos, pi, acos
 import numpy as np
 from numpy import linalg as LA
 
-from triangle3d import triangle_3d, align_p1_p2_p3
-from html import html_css_of_triangle
+from triangle3d import triangle_3d
+from html import html_css_of_object3d
+from object3d import object_3d
 
-my_trig = triangle_3d([
-    np.array([0, -40, 0]).reshape(-1, 1),
-    np.array([40, 0, 0]).reshape(-1, 1),
-    np.array([0, 0, 40]).reshape(-1, 1)
-])
+my_trig = triangle_3d(
+    [0, -40, 0],
+    [40, 0, 0],
+    [0, 0, 40]
+)
 
+my_trig2 = triangle_3d(
+    [0, -40, 0],
+    [-40, 0, 0],
+    [0, 0, 40]
+)
 
-triangle, transformations = align_p1_p2_p3(my_trig)
+my_trig3 = triangle_3d(
+    [0, 40, 0],
+    [-40, 0, 0],
+    [0, 0, 40]
+)
 
-html, css = html_css_of_triangle(triangle, transformations, "face1", 5)
+my_trig4 = triangle_3d(
+    [0, 40, 0],
+    [40, 0, 0],
+    [0, 0, 40]
+)
+
+obj = object_3d([my_trig, my_trig2, my_trig3, my_trig4])
+
+html, css = html_css_of_object3d(obj, "obj1", 5)
 
 
 print(html)
 print(css)
-print(transformations)
 
