@@ -1,16 +1,32 @@
 from math import sin, cos, pi, acos
+from abc import ABC, abstractmethod
+from dataclasses import dataclass
 
 import numpy as np
 
-class transformation_3d:
+class transformation_3d(ABC):
+    # @abstractmethod
     def to_css(self):
         pass 
 
+    @abstractmethod
     def inverted(self):
         pass
 
+    @abstractmethod
+    def transform(self, point):
+        pass
 
-class rotationX(transformation_3d):
+class rotation_3d(transformation_3d):
+    @abstractmethod
+    def create_matrix(self):
+        pass
+
+    def transform(self, point):
+        return np.matmul(self.create_matrix(), point)
+
+@dataclass
+class rotationX(rotation_3d):
     angle_radians: float
 
     def __init__(self, angle_radians):
@@ -26,7 +42,8 @@ class rotationX(transformation_3d):
             [0, sin(self.angle_radians), cos(self.angle_radians)]
         ])
     
-class rotationY(transformation_3d):
+@dataclass
+class rotationY(rotation_3d):
     angle_radians: float
 
     def __init__(self, angle_radians):
@@ -42,7 +59,8 @@ class rotationY(transformation_3d):
             [-sin(self.angle_radians), 0, cos(self.angle_radians)]
         ])
     
-class rotationZ(transformation_3d):
+@dataclass
+class rotationZ(rotation_3d):
     angle_radians: float
 
     def __init__(self, angle_radians):
