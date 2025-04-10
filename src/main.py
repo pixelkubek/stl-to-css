@@ -54,6 +54,7 @@ class triangle_3d:
 # Moves triangle so that p1 has coordinates [0, 0, 0]
 def align_p1(triangle: triangle_3d) -> triangle_3d:
     p1, p2, p3 = triangle.vertices
+    print("move: ", p1)
     return triangle_3d([p1 - p1, p2 - p1, p3 - p1])
 
 # Rotates triangle so that p1 has coordinates [0, 0, 0] and p2 is on the positive x axis
@@ -62,6 +63,9 @@ def align_p1_p2(triangle: triangle_3d) -> triangle_3d:
     polar_angle = acos(p2[2, 0] / LA.norm(p2))
     angle_of_rotation = sgn(p2[1, 0]) * acos(p2[0, 0] / LA.norm(p2[:2, 0]))
     print(polar_angle / pi * 180, angle_of_rotation / pi * 180)
+
+    print("z rotate: ", -angle_of_rotation)
+    print("y rotate: ", pi/2 - polar_angle)
 
     return triangle_3d([
         p1,
@@ -80,6 +84,7 @@ def align_p1_p2_p3(triangle: triangle_3d) -> triangle_3d:
     angle = acos(np.dot(projected_p3, up_vector).item() / (LA.norm(projected_p3) * LA.norm(up_vector)))
 
     print(angle, angle / pi * 180)
+    print("x rotate: ", angle)
 
     return triangle_3d([
         p1,
