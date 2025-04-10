@@ -4,7 +4,6 @@ from math import pi, acos
 import numpy as np
 from numpy import linalg as LA
 
-from html import wrap_html
 from transformations import translate_3d, rotationX, rotationY, rotationZ, transformation_3d
 
 def sgn(x: float):
@@ -19,17 +18,10 @@ def get_xyz(point):
 @dataclass
 class triangle_3d:
     vertices: list[np.ndarray]
-
-    def to_html_css(self, html_class: str, size, unit: str = 'px') -> tuple[str, str]:
-        p1, p2, p3 = self.vertices
-        p2_x, p2_y, p2_z = get_xyz(p2)
-        p3_x, p3_y, p3_z = get_xyz(p3)
-        polygon = f'<polygon points="0,0 {p2_x},{p2_z} {p3_x},{p3_z} class="{html_class} object3d-element"/>'
-        svg = wrap_html("svg", polygon, {"class":f'{html_class} object3d-element'})
-        return svg
     
     def transform(self, transformation: transformation_3d):
         self.vertices = [transformation.transform(p) for p in self.vertices]
+
 
 # Moves triangle so that p1 has coordinates [0, 0, 0]
 def align_p1(triangle: triangle_3d) -> tuple[triangle_3d, list[transformation_3d]]:
