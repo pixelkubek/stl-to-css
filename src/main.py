@@ -16,5 +16,10 @@ my_trig = triangle_3d([
 
 triangle, transformations = align_p1_p2_p3(my_trig)
 
-print(html_css_of_triangle(triangle, "face1", 100), transformations)
+html, css = html_css_of_triangle(triangle, "face1", 100)
+
+
+print(html)
+print(css)
+print(transformations)
 
