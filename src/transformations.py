@@ -7,7 +7,7 @@ import numpy as np
 class transformation_3d(ABC):
     # @abstractmethod
     def to_css(self):
-        pass 
+        return '{}' 
 
     @abstractmethod
     def inverted(self):
@@ -54,6 +54,9 @@ class rotationX(rotation_3d):
             [0, cos(self.angle_radians), -sin(self.angle_radians)],
             [0, sin(self.angle_radians), cos(self.angle_radians)]
         ])
+    
+    def to_css(self):
+        return f'{{transform-origin: top left;transform: rotateX({self.angle_radians}rad);}}' 
     
 @dataclass
 class rotationY(rotation_3d):
