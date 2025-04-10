@@ -48,6 +48,11 @@ def html_css_of_object3d(object: object_3d, html_class: str, size, unit: str = '
     css.append(f'div.{html_class}.center-wrapper {{{translate_3d(size / 2, 0, size / 2).to_css()}}}')
 
     html = wrap_html('div', html, {"class":f'{html_class}-base {html_class} object3d-element preserve-3d-wrapper', 'id':html_class})
-    css.append(f'.{html_class}-base {{width:{size}{unit};height:{size}{unit};}}')
+    css.append(f'.{html_class}-base {{width:{size}{unit};height:{size}{unit};transform-style: preserve-3d;}}')
+
+    css.append(f'.{html_class}-base .preserve-3d-wrapper {{transform-style: preserve-3d;}}')
+    css.append(f'.{html_class}-base .transform-origin-top-left {{transform-origin: top left;}}')
+    css.append(f'.{html_class}-base .position-absolute-wrapper {{position: absolute;}}')
+    css.append(f'.{html_class}-base svg {{fill: red;stroke: black;height: {size}{unit};width: {size}{unit};opacity: 50%;}}')
 
     return html, '\n'.join(css)
