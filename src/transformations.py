@@ -18,6 +18,8 @@ class transformation_3d(ABC):
         pass
 
 class rotation_3d(transformation_3d):
+    angle_radians: float
+
     @abstractmethod
     def create_matrix(self):
         pass
@@ -27,8 +29,6 @@ class rotation_3d(transformation_3d):
 
 @dataclass
 class rotationX(rotation_3d):
-    angle_radians: float
-
     def __init__(self, angle_radians):
         self.angle_radians = angle_radians
 
@@ -44,8 +44,6 @@ class rotationX(rotation_3d):
     
 @dataclass
 class rotationY(rotation_3d):
-    angle_radians: float
-
     def __init__(self, angle_radians):
         self.angle_radians = angle_radians
 
@@ -61,8 +59,6 @@ class rotationY(rotation_3d):
     
 @dataclass
 class rotationZ(rotation_3d):
-    angle_radians: float
-
     def __init__(self, angle_radians):
         self.angle_radians = angle_radians
 
