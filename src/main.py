@@ -1,9 +1,3 @@
-from dataclasses import dataclass
-from math import sin, cos, pi, acos
-
-import numpy as np
-from numpy import linalg as LA
-
 from triangle3d import triangle_3d
 from html import html_css_of_object3d
 from object3d import object_3d
@@ -63,7 +57,17 @@ obj.fit_to_size(500)
 
 html, css = html_css_of_object3d(obj, "obj1", 500)
 
-
-print(html)
-print(css)
+print(f'''<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="test.css">
+        <style>
+            {css}
+        </style>
+    </head>
+    <body>
+        {html}
+    </body>
+</html>
+''')
 
