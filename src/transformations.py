@@ -27,10 +27,11 @@ class translate_3d(transformation_3d):
         return translate_3d(-self.x, -self.y, -self.z)
     
     def transform(self, point):
-        return point - np.array([self.x, self.y, self.z]).reshape(-1, 1)
+        return point + np.array([self.x, self.y, self.z]).reshape(-1, 1)
     
     def to_css(self, unit: str = 'px'):
-        return f'transform: translate3d({self.x}{unit},{self.z}{unit},{self.y}{unit});' 
+        # y direction is swapped in css
+        return f'transform: translate3d({self.x}{unit},{self.z}{unit},{-self.y}{unit});' 
 
 @dataclass
 class rotation_3d(transformation_3d):

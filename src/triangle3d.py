@@ -32,7 +32,7 @@ class triangle_3d:
 
 # Moves triangle so that p1 has coordinates [0, 0, 0]
 def align_p1(triangle: triangle_3d) -> tuple[triangle_3d, list[transformation_3d]]:
-    translation_3d = translate_3d(*get_xyz(triangle.vertices[0]))
+    translation_3d = translate_3d(*get_xyz(triangle.vertices[0])).inverted()
 
     triangle.transform(translation_3d)
 
