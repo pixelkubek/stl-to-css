@@ -33,8 +33,9 @@ def html_css_of_triangle(triangle: triangle_3d, transforms: list[transformation_
 
         return html, '\n'.join(css)
 
-def html_css_of_object3d(object: object_3d, html_class: str, size, unit: str = 'px') -> tuple[str, str]:
+def html_css_of_object3d(object: object_3d, size, unit: str = 'px') -> tuple[str, str]:
     center_point_vector = object.center()
+    html_class = object.name
     html = []
     css = []
 

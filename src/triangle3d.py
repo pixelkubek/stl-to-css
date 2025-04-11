@@ -4,6 +4,8 @@ from math import pi, acos, asin, sin
 import numpy as np
 from numpy import linalg as LA
 
+import sys
+
 from transformations import translate_3d, rotationX, rotationY, rotationZ, transformation_3d
 
 def sgn(x: float):
@@ -42,7 +44,11 @@ def align_p1(triangle: triangle_3d) -> tuple[triangle_3d, list[transformation_3d
 def align_p2(triangle: triangle_3d) -> tuple[triangle_3d, list[transformation_3d]]:
     _, p2, _ = triangle.vertices
     polar_angle = acos(p2[2, 0] / LA.norm(p2))
-    angle_of_rotation = sgn(p2[1, 0]) * acos(p2[0, 0] / LA.norm(p2[:2, 0]))
+    if LA.norm(p2[:2, 0]) > 0:
+        angle_of_rotation = sgn(p2[1, 0]) * acos(p2[0, 0] / LA.norm(p2[:2, 0]))
+    else:
+        angle_of_rotation = 0
+        print(LA.norm(p2[:2, 0]), p2, file=sys.stderr)
 
     z_rotation = rotationZ(-angle_of_rotation)
     y_rotation = rotationY(pi/2 - polar_angle)
@@ -79,4 +85,5 @@ def align_p1_p2_p3(triangle: triangle_3d) -> tuple[triangle_3d, list[transformat
     
     triangle, tansformations = align_p3(triangle)
     all_transformations.extend(tansformations)
+    print(all_transformations, file=sys.stderr)
     return triangle, all_transformations

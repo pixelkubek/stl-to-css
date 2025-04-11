@@ -1,14 +1,17 @@
 from triangle3d import triangle_3d, align_p1_p2_p3, get_xyz
 from transformations import transformation_3d, translate_3d
 
+
 from numpy import linalg as LA
 import numpy as np
-
+import re
 class object_3d:
     faces: list[triangle_3d]
+    name: str
 
-    def __init__(self, faces):
+    def __init__(self, faces, name = 'object3d'):
         self.faces = faces
+        self.name = name
 
     def __str__(self):
         return f"object3d(faces={self.faces})"
@@ -57,3 +60,43 @@ class object_3d:
                 count += 1
         
         return np.array([(sum_x / count), (sum_y / count), (sum_z / count)]).reshape(-1, 1)
+
+def object_from_ascii_stl(file):
+    lines = file.read().splitlines()
+
+    assert(lines[0].startswith('solid '))
+    object_name = lines[0].removeprefix('solid ')
+    object_name = re.sub(r'[^a-zA-Z0-9_.-]', '', object_name)
+
+    faces = []
+
+    i = 1
+    while lines[i].lstrip().startswith("facet"):
+        i += 1 # ignore facet line
+        assert(lines[i].strip() == "outer loop")
+        i += 1 # move to first vertex line
+
+        points = []
+        for _ in range(3):
+            coordinates = []
+            line = lines[i].strip()
+            elements = line.split()
+            assert(elements[0] ==  "vertex")
+
+            for j in range(3):
+                coordinates.append(float(elements[j + 1]))
+            points.append(coordinates)
+        
+            i += 1
+
+        assert(lines[i].strip() == "endloop")
+        i += 1
+
+        assert(lines[i].strip() == "endfacet")
+        i += 1
+
+        faces.append(triangle_3d(*points))
+
+    return object_3d(faces, object_name)
+
+    

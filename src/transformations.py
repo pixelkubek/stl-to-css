@@ -79,7 +79,7 @@ class rotationY(rotation_3d):
 
     def to_css(self, unit: str = 'px'):
         # css has different axis names for y and z
-        return f'transform: rotateZ({self.angle_radians}rad);' 
+        return f'transform: rotateZ({-self.angle_radians}rad);' 
     
 @dataclass
 class rotationZ(rotation_3d):
