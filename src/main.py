@@ -32,7 +32,32 @@ my_trig4 = triangle_3d(
     [0, 0, 22500]
 )
 
-obj = object_3d([my_trig, my_trig2, my_trig3, my_trig4])
+my_trig5 = triangle_3d(
+    [0, -22500, 0],
+    [22500, 0, 0],
+    [0, 0, -22500]
+)
+
+my_trig6 = triangle_3d(
+    [0, -22500, 0],
+    [-22500, 0, 0],
+    [0, 0, -22500]
+)
+
+my_trig7 = triangle_3d(
+    [0, 22500, 0],
+    [-22500, 0, 0],
+    [0, 0, -22500]
+)
+
+my_trig8 = triangle_3d(
+    [0, 22500, 0],
+    [22500, 0, 0],
+    [0, 0, -22500]
+)
+
+
+obj = object_3d([my_trig, my_trig2, my_trig3, my_trig4, my_trig5, my_trig6, my_trig7, my_trig8])
 
 obj.fit_to_size(500)
 

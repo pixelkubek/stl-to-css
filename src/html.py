@@ -54,7 +54,7 @@ def html_css_of_object3d(object: object_3d, html_class: str, size, unit: str = '
     centering_vector = center_0_0_vector - center_point_vector
     print("center point: ", center_point_vector)
 
-    css.append(f'div.{html_class}.center-wrapper {{{translate_3d(*get_xyz(centering_vector.ravel())).to_css()}}}')
+    css.append(f'div.{html_class}.center-wrapper {{{translate_3d(*get_xyz(centering_vector.ravel())).to_css(unit)}}}')
 
     html = wrap_html('div', html, {"class":f'{html_class}-base {html_class} object3d-element preserve-3d-wrapper', 'id':html_class})
     css.append(f'.{html_class}-base {{width:{size}{unit};height:{size}{unit};transform-style: preserve-3d;}}')
