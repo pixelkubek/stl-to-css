@@ -2,6 +2,7 @@ from triangle3d import triangle_3d, align_p1_p2_p3, get_xyz
 from transformations import transformation_3d, translate_3d
 
 from numpy import linalg as LA
+import numpy as np
 
 class object_3d:
     faces: list[triangle_3d]
@@ -47,3 +48,17 @@ class object_3d:
                 for i in range(len(face.vertices)):
                     print(face.vertices[i] * size / (max_distance))
                     face.vertices[i] = face.vertices[i] * size / (max_distance)
+
+    def center(self):
+        sum_x, sum_y, sum_z = 0, 0, 0
+        count = 0
+
+        for face in self.faces:
+            for point in face.vertices:
+                x, y, z = get_xyz(point)
+                sum_x += x
+                sum_y += y
+                sum_z += z
+                count += 1
+        
+        return np.array([(sum_x / count), (sum_y / count), (sum_z / count)]).reshape(-1, 1)
