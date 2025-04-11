@@ -25,28 +25,23 @@ class object_3d:
                 min_x = min(min_x, x)
                 min_y = min(min_y, y)
                 min_z = min(min_z, z)
-                print(z)
 
         transformation = translate_3d(-min_x, -min_y, -min_z)
 
         for face in self.faces:
             face.transform(transformation)
-        print(self.faces)
 
-        print(transformation)
 
         max_distance = 0
 
         for face in self.faces:
             for point in face.vertices:
                 max_distance = max(max_distance, LA.norm(point))
-                print(z)
 
 
         if max_distance != 0:
             for face in self.faces:
                 for i in range(len(face.vertices)):
-                    print(face.vertices[i] * size / (max_distance))
                     face.vertices[i] = face.vertices[i] * size / (max_distance)
 
     def center(self):

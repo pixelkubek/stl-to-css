@@ -52,7 +52,6 @@ def html_css_of_object3d(object: object_3d, html_class: str, size, unit: str = '
     center_0_0_vector = np.array([size / 2, 0, size / 2]).reshape(-1, 1)
 
     centering_vector = center_0_0_vector - center_point_vector
-    print("center point: ", center_point_vector)
 
     css.append(f'div.{html_class}.center-wrapper {{{translate_3d(*get_xyz(centering_vector.ravel())).to_css(unit)}}}')
 

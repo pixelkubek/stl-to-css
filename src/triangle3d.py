@@ -43,17 +43,11 @@ def align_p2(triangle: triangle_3d) -> tuple[triangle_3d, list[transformation_3d
     _, p2, _ = triangle.vertices
     polar_angle = acos(p2[2, 0] / LA.norm(p2))
     angle_of_rotation = sgn(p2[1, 0]) * acos(p2[0, 0] / LA.norm(p2[:2, 0]))
-    print(polar_angle / pi * 180, angle_of_rotation / pi * 180)
-
-    print("z rotate: ", -angle_of_rotation)
-    print("y rotate: ", pi/2 - polar_angle)
 
     z_rotation = rotationZ(-angle_of_rotation)
     y_rotation = rotationY(pi/2 - polar_angle)
 
     triangle.transform(z_rotation)
-
-    # print(triangle)
 
     triangle.transform(y_rotation)
 
@@ -64,34 +58,25 @@ def align_p3(triangle: triangle_3d) -> tuple[triangle_3d, list[transformation_3d
     
     projected_p3 = p3[1:3, 0] # p3 projected to yz plane
 
-    print(projected_p3)
     up_vector = np.array([0, 1]).reshape(-1, 1)
 
-    # angle = acos(np.dot(projected_p3, up_vector).item() / (LA.norm(projected_p3) * LA.norm(up_vector)))
     angle = sgn(projected_p3[0]) * acos(projected_p3[1] / LA.norm(projected_p3))
 
-    print(angle, angle / pi * 180)
-    print("x rotate: ", angle)
 
     x_rotation = rotationX(angle)
 
     triangle.transform(x_rotation)
-    print(triangle)
 
     return triangle, [x_rotation]
 
 def align_p1_p2_p3(triangle: triangle_3d) -> tuple[triangle_3d, list[transformation_3d]]:
     all_transformations = []
-    print("0: ", triangle)
     triangle, tansformations = align_p1(triangle)
     all_transformations.extend(tansformations)
-    print("1: ", triangle)
 
     triangle, tansformations = align_p2(triangle)
     all_transformations.extend(tansformations)    
-    print("2: ", triangle)
     
     triangle, tansformations = align_p3(triangle)
     all_transformations.extend(tansformations)
-    print("3: ", triangle)
     return triangle, all_transformations
