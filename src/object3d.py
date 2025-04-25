@@ -4,7 +4,6 @@ from transformations import transformation_3d, translate_3d
 
 from numpy import linalg as LA
 import numpy as np
-import re
 import struct
 import sys
 
@@ -64,19 +63,17 @@ class object_3d:
         
         return np.array([(sum_x / count), (sum_y / count), (sum_z / count)]).reshape(-1, 1)
 
-def object_from_ascii_stl(file):
-    lines = file.read().splitlines()
+def object_from_ascii_stl(data, object_name: str):
+    lines = data.splitlines()
 
-    assert(lines[0].startswith('solid '))
-    object_name = lines[0].removeprefix('solid ')
-    object_name = re.sub(r'[^a-zA-Z0-9_.-]', '', object_name)
+    assert(lines[0].startswith(b'solid '))
 
     faces = []
 
     i = 1
-    while lines[i].lstrip().startswith("facet"):
+    while lines[i].lstrip().startswith(b"facet"):
         i += 1 # ignore facet line
-        assert(lines[i].strip() == "outer loop")
+        assert(lines[i].strip() == b"outer loop")
         i += 1 # move to first vertex line
 
         points = []
@@ -84,7 +81,7 @@ def object_from_ascii_stl(file):
             coordinates = []
             line = lines[i].strip()
             elements = line.split()
-            assert(elements[0] ==  "vertex")
+            assert(elements[0] ==  b"vertex")
 
             for j in range(3):
                 coordinates.append(float(elements[j + 1]))
@@ -94,10 +91,10 @@ def object_from_ascii_stl(file):
         
             i += 1
 
-        assert(lines[i].strip() == "endloop")
+        assert(lines[i].strip() == b"endloop")
         i += 1
 
-        assert(lines[i].strip() == "endfacet")
+        assert(lines[i].strip() == b"endfacet")
         i += 1
 
         faces.append(triangle_3d(*points))
@@ -105,8 +102,7 @@ def object_from_ascii_stl(file):
     return object_3d(faces, object_name)
 
     
-def object_from_binary_stl(file):
-    data = file.read()
+def object_from_binary_stl(data, objest_name):
     index = 80 # skip header
 
     number_of_triangles, = struct.unpack('<I', data[index:index + 4])
@@ -131,6 +127,14 @@ def object_from_binary_stl(file):
 
         index += 2
 
-    return object_3d(faces, "binobj")
+    return object_3d(faces, objest_name)
 
 
+def read_stl_file(pathname: str, object_name: str = 'obj') -> object_3d:
+    with open(pathname, 'rb') as f:
+        data = f.read()
+
+        if data.startswith(b'solid'):
+            return object_from_ascii_stl(data, object_name)
+        else:
+            return object_from_binary_stl(data, object_name)
