@@ -85,6 +85,8 @@ def object_from_ascii_stl(file):
 
             for j in range(3):
                 coordinates.append(float(elements[j + 1]))
+
+            coordinates[2] *= -1
             points.append(coordinates)
         
             i += 1

@@ -1,2 +1,4 @@
 build/*
 src/__pycache__/*
+*.stl
+*.mlp

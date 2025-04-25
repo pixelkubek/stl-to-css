@@ -48,7 +48,6 @@ def align_p2(triangle: triangle_3d) -> tuple[triangle_3d, list[transformation_3d
         angle_of_rotation = sgn(p2[1, 0]) * acos(p2[0, 0] / LA.norm(p2[:2, 0]))
     else:
         angle_of_rotation = 0
-        print(LA.norm(p2[:2, 0]), p2, file=sys.stderr)
 
     z_rotation = rotationZ(-angle_of_rotation)
     y_rotation = rotationY(pi/2 - polar_angle)
@@ -85,5 +84,4 @@ def align_p1_p2_p3(triangle: triangle_3d) -> tuple[triangle_3d, list[transformat
     
     triangle, tansformations = align_p3(triangle)
     all_transformations.extend(tansformations)
-    print(all_transformations, file=sys.stderr)
     return triangle, all_transformations
