@@ -20,13 +20,15 @@ def get_xyz(point):
 @dataclass
 class triangle_3d:
     vertices: list[np.ndarray]
+    classes: list[str]
 
-    def __init__(self, p1, p2, p3):
+    def __init__(self, p1, p2, p3, classes = []):
         self.vertices = [
             np.array(p1).reshape(-1, 1),
             np.array(p2).reshape(-1, 1),
             np.array(p3).reshape(-1, 1)
         ]
+        self.classes = classes
     
     def transform(self, transformation: transformation_3d):
         self.vertices = [transformation.transform(p) for p in self.vertices]

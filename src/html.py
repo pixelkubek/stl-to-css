@@ -17,7 +17,7 @@ def html_css_of_triangle(triangle: triangle_3d, transforms: list[transformation_
 
 
         # add polygon tag
-        html = f'<polygon points="0,0 {svg_pixel_scale * p3_x:.10f},{svg_pixel_scale * p3_z:.10f} {svg_pixel_scale * p2_x:.10f},{svg_pixel_scale * p2_z:.10f}" class="{html_class} object3d-element"/>'
+        html = f'<polygon points="0,0 {svg_pixel_scale * p3_x:.10f},{svg_pixel_scale * p3_z:.10f} {svg_pixel_scale * p2_x:.10f},{svg_pixel_scale * p2_z:.10f}" class="{html_class} object3d-element {' '.join(triangle.classes)}"/>'
 
         # add svg tag
         html = wrap_html("svg", html, {"class":f'{html_class} object3d-element', 'viewBox': f"0 0 {svg_pixel_scale * size} {svg_pixel_scale * size}"})
