@@ -1,6 +1,6 @@
 from triangle3d import triangle_3d
 from html import html_css_of_object3d
-from object3d import object_3d, object_from_ascii_stl
+from object3d import object_3d, object_from_ascii_stl, object_from_binary_stl
 
 import sys
 # my_trig = triangle_3d(
@@ -72,8 +72,8 @@ import sys
 # </html>
 # ''')
 
-with open('pikachu.stl', 'r') as f:
-    obj = object_from_ascii_stl(f)
+with open('bulbasaur.stl', 'rb') as f:
+    obj = object_from_binary_stl(f)
 
 
 obj.fit_to_size(500)

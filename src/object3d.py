@@ -5,6 +5,9 @@ from transformations import transformation_3d, translate_3d
 from numpy import linalg as LA
 import numpy as np
 import re
+import struct
+import sys
+
 class object_3d:
     faces: list[triangle_3d]
     name: str
@@ -102,3 +105,32 @@ def object_from_ascii_stl(file):
     return object_3d(faces, object_name)
 
     
+def object_from_binary_stl(file):
+    data = file.read()
+    index = 80 # skip header
+
+    number_of_triangles, = struct.unpack('<I', data[index:index + 4])
+
+    index += 4
+
+    faces = []
+
+    for _ in range(number_of_triangles):
+        normal_x, normal_y, normal_z = struct.unpack("<fff", data[index: index + 12])
+        index += 12
+
+        points = []
+        for _ in range(3):
+            x, y, z = struct.unpack("<fff", data[index: index + 12])
+            index += 12
+
+            points.append([x, y, -z])
+        
+        faces.append(triangle_3d(*points))
+        print(faces[-1], file=sys.stderr)
+
+        index += 2
+
+    return object_3d(faces, "binobj")
+
+
