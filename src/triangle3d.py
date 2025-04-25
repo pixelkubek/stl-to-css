@@ -67,7 +67,10 @@ def align_p3(triangle: triangle_3d) -> tuple[triangle_3d, list[transformation_3d
 
     up_vector = np.array([0, 1]).reshape(-1, 1)
 
-    angle = sgn(projected_p3[0]) * acos(projected_p3[1] / LA.norm(projected_p3))
+    if LA.norm(projected_p3) > 0:
+        angle = sgn(projected_p3[0]) * acos(projected_p3[1] / LA.norm(projected_p3))
+    else:
+        angle = 0
 
 
     x_rotation = rotationX(angle)
