@@ -10,17 +10,17 @@ def wrap_html(type: str, body: str = "", attributes: dict = dict()) -> str:
         attributes_list.append(f"{key}=\"{val}\"")
     return f"<{type} {" ".join(attributes_list)}>{body}</{type}>"
 
-def html_css_of_triangle(triangle: triangle_3d, transforms: list[transformation_3d], html_class: str, size, unit: str = 'px') -> tuple[str, str]:
+def html_css_of_triangle(triangle: triangle_3d, transforms: list[transformation_3d], html_class: str, size, unit: str = 'px', svg_pixel_scale: int = 1) -> tuple[str, str]:
         _, p2, p3 = triangle.vertices
         p2_x, _, p2_z = get_xyz(p2)
         p3_x, _, p3_z = get_xyz(p3)
 
 
         # add polygon tag
-        html = f'<polygon points="0,0 {p3_x:.10f},{p3_z:.10f} {p2_x:.10f},{p2_z:.10f}" class="{html_class} object3d-element"/>'
+        html = f'<polygon points="0,0 {svg_pixel_scale * p3_x:.10f},{svg_pixel_scale * p3_z:.10f} {svg_pixel_scale * p2_x:.10f},{svg_pixel_scale * p2_z:.10f}" class="{html_class} object3d-element"/>'
 
         # add svg tag
-        html = wrap_html("svg", html, {"class":f'{html_class} object3d-element', 'viewBox': f"0 0 {size} {size}"})
+        html = wrap_html("svg", html, {"class":f'{html_class} object3d-element', 'viewBox': f"0 0 {svg_pixel_scale * size} {svg_pixel_scale * size}"})
         css = []
 
         counter = 0
@@ -33,7 +33,7 @@ def html_css_of_triangle(triangle: triangle_3d, transforms: list[transformation_
 
         return html, '\n'.join(css)
 
-def html_css_of_object3d(object: object_3d, size, unit: str = 'px') -> tuple[str, str]:
+def html_css_of_object3d(object: object_3d, size, unit: str = 'px', svg_pixel_scale: int = 1, color='red') -> tuple[str, str]:
     center_point_vector = object.center()
     html_class = object.name
     html = []
@@ -41,7 +41,7 @@ def html_css_of_object3d(object: object_3d, size, unit: str = 'px') -> tuple[str
 
     counter=0
     for triangle, transformations in object.transformed_faces():
-        triangle_html, triangle_css = html_css_of_triangle(triangle, transformations, f"{html_class}-face{counter}", size, unit)
+        triangle_html, triangle_css = html_css_of_triangle(triangle, transformations, f"{html_class}-face{counter}", size, unit, svg_pixel_scale)
         html.append(
             wrap_html('div', triangle_html, {"class":f'{html_class}-face{counter} object3d-element preserve-3d-wrapper position-absolute-wrapper'})
         )
@@ -62,6 +62,6 @@ def html_css_of_object3d(object: object_3d, size, unit: str = 'px') -> tuple[str
     css.append(f'.{html_class}-base .preserve-3d-wrapper {{transform-style: preserve-3d;}}')
     css.append(f'.{html_class}-base .transform-origin-top-left {{transform-origin: top left;}}')
     css.append(f'.{html_class}-base .position-absolute-wrapper {{position: absolute;}}')
-    css.append(f'.{html_class}-base svg {{fill: red;stroke: black;height: {size}{unit};width: {size}{unit};opacity: 50%;}}')
+    css.append(f'.{html_class}-base svg {{fill: {color};stroke: black;height: {size}{unit};width: {size}{unit};opacity: 50%;}}')
 
     return html, '\n'.join(css)

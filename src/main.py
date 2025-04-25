@@ -3,79 +3,11 @@ from html import html_css_of_object3d
 from object3d import object_3d, read_stl_file
 
 import sys
-# my_trig = triangle_3d(
-#     [0, -22500, 0],
-#     [22500, 0, 0],
-#     [0, 0, 22500]
-# )
-
-# my_trig2 = triangle_3d(
-#     [0, -22500, 0],
-#     [-22500, 0, 0],
-#     [0, 0, 22500]
-# )
-
-# my_trig3 = triangle_3d(
-#     [0, 22500, 0],
-#     [-22500, 0, 0],
-#     [0, 0, 22500]
-# )
-
-# my_trig4 = triangle_3d(
-#     [0, 22500, 0],
-#     [22500, 0, 0],
-#     [0, 0, 22500]
-# )
-
-# my_trig5 = triangle_3d(
-#     [0, -22500, 0],
-#     [22500, 0, 0],
-#     [0, 0, -22500]
-# )
-
-# my_trig6 = triangle_3d(
-#     [0, -22500, 0],
-#     [-22500, 0, 0],
-#     [0, 0, -22500]
-# )
-
-# my_trig7 = triangle_3d(
-#     [0, 22500, 0],
-#     [-22500, 0, 0],
-#     [0, 0, -22500]
-# )
-
-# my_trig8 = triangle_3d(
-#     [0, 22500, 0],
-#     [22500, 0, 0],
-#     [0, 0, -22500]
-# )
-
-
-# obj = object_3d([my_trig, my_trig2, my_trig3, my_trig4, my_trig5, my_trig6, my_trig7, my_trig8], 'obj1')
-
-# obj.fit_to_size(500)
-
-# html, css = html_css_of_object3d(obj, 500)
-
-# print(f'''<!DOCTYPE html>
-# <html>
-#     <head>
-#         <link rel="stylesheet" href="test.css">
-#         <style>
-#             {css}
-#         </style>
-#     </head>
-#     <body>
-#         {html}
-#     </body>
-# </html>
-# ''')
 
 obj = read_stl_file('pikachu.stl', 'obj')
-obj.fit_to_size(500)
+obj.fit_to_size(50)
 
-html, css = html_css_of_object3d(obj, 500)
+html, css = html_css_of_object3d(obj, 50, svg_pixel_scale = 10, color='yellow', unit='vh')
 # print(obj, file=sys.stderr)
 
 print(f'''<!DOCTYPE html>
