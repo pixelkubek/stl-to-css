@@ -65,8 +65,6 @@ def align_p3(triangle: triangle_3d) -> tuple[triangle_3d, list[transformation_3d
     
     projected_p3 = p3[1:3, 0] # p3 projected to yz plane
 
-    up_vector = np.array([0, 1]).reshape(-1, 1)
-
     if LA.norm(projected_p3) > 0:
         angle = sgn(projected_p3[0]) * acos(projected_p3[1] / LA.norm(projected_p3))
     else:
