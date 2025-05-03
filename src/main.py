@@ -9,11 +9,11 @@ if __name__ == '__main__':
     parser.add_argument("-o", "--htmlfile", type=str, help="Html output destination file")
     parser.add_argument("-c", "--cssfile", type=str, help="Css output destination file")
     parser.add_argument("-f", "--file", type=str, help="Combined output destination file")
-    parser.add_argument("-d", "--display", type=str, help="Print combined output to stdout", default=False)
-    parser.add_argument("-s", "--size", type=str, help="Desired html element size", required=True)
+    parser.add_argument("-d", "--display", action="store_true", help="Print combined output to stdout", default=False)
+    parser.add_argument("-s", "--size", type=int, help="Desired html element size", required=True)
     parser.add_argument("-u", "--unit", type=str, help="Html unit used", default='px')
     parser.add_argument("--color", type=str, help="3d object face color in css notation", default='red')
-    parser.add_argument("--svg_pixel_scale", type=str, help="How many size units are in an svg pixel, controls contour length", default=1)
+    parser.add_argument("--svg_pixel_scale", type=int, help="How many size units are in an svg pixel, controls contour length", default=1)
 
     args = parser.parse_args()
 

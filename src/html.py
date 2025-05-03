@@ -67,4 +67,7 @@ def html_css_of_object3d(object: object_3d, size, unit: str = 'px', svg_pixel_sc
     css.append(f'.{html_class}-base .position-absolute-wrapper {{position: absolute;}}')
     css.append(f'.{html_class}-base svg {{fill: {color};stroke: black;height: {size}{unit};width: {size}{unit};opacity: 50%;}}')
 
+    html = wrap_html('div', html, {"class":f'{html_class}-outer-wrapper {html_class} object3d-element'})
+    css.append(f'.{html_class}-outer-wrapper {{overflow:hidden}}')
+
     return html, '\n'.join(css)
