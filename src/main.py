@@ -27,7 +27,7 @@ if __name__ == '__main__':
 
     if args.cssfile is not None:
         with open(args.cssfile, 'w') as f:
-            print(html, file=f)
+            print(css, file=f)
 
     combined = f'''<!DOCTYPE html>
 <html>
