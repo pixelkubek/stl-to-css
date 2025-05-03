@@ -4,22 +4,24 @@ from object3d import object_3d
 
 import numpy as np
 
+# Wrap text in a pair of html brackets.
+# <type x.key="x.value" for x in attributes>body</type>
 def wrap_html(type: str, body: str = "", attributes: dict = dict()) -> str:
     attributes_list = []
     for key, val in attributes.items():
         attributes_list.append(f"{key}=\"{val}\"")
     return f"<{type} {" ".join(attributes_list)}>{body}</{type}>"
 
+# Return a html div and the appropriate css for a triangle after applying transforms.
 def html_css_of_triangle(triangle: triangle_3d, transforms: list[transformation_3d], html_class: str, size, unit: str = 'px', svg_pixel_scale: int = 1) -> tuple[str, str]:
         _, p2, p3 = triangle.vertices
         p2_x, _, p2_z = get_xyz(p2)
         p3_x, _, p3_z = get_xyz(p3)
 
-
-        # add polygon tag
+        # Add polygon tag.
         html = f'<polygon points="0,0 {svg_pixel_scale * p3_x:.10f},{svg_pixel_scale * p3_z:.10f} {svg_pixel_scale * p2_x:.10f},{svg_pixel_scale * p2_z:.10f}" class="{html_class} object3d-element {' '.join(triangle.classes)}"/>'
 
-        # add svg tag
+        # Add svg tag.
         html = wrap_html("svg", html, {"class":f'{html_class} object3d-element', 'viewBox': f"0 0 {svg_pixel_scale * size} {svg_pixel_scale * size}"})
         css = []
 
@@ -33,6 +35,7 @@ def html_css_of_triangle(triangle: triangle_3d, transforms: list[transformation_
 
         return html, '\n'.join(css)
 
+# Return a html div and the appropriate css for a 3d object.
 def html_css_of_object3d(object: object_3d, size, unit: str = 'px', svg_pixel_scale: int = 1, color='red') -> tuple[str, str]:
     center_point_vector = object.center()
     html_class = object.name

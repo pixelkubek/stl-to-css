@@ -18,9 +18,12 @@ class object_3d:
     def __str__(self):
         return f"object3d(faces={self.faces})"
     
+    # For each face, return it's triangle3d along with a list of transformations
+    # to move it to the XZ plane with one side on the X axis.
     def transformed_faces(self) -> list[tuple[triangle_3d, list[transformation_3d]]]:
         return [align_p1_p2_p3(f) for f in self.faces]
 
+    # Scale the object for all variables to be between 0 and size.
     def fit_to_size(self, size):
         min_x, min_y, min_z = 0, 0, 0 
 
@@ -49,6 +52,7 @@ class object_3d:
                 for i in range(len(face.vertices)):
                     face.vertices[i] = face.vertices[i] * size / (max_distance)
 
+    # Return a vector which moves the average point to the 0, 0, 0 coordinates.
     def center(self):
         sum_x, sum_y, sum_z = 0, 0, 0
         count = 0
@@ -63,6 +67,7 @@ class object_3d:
         
         return np.array([(sum_x / count), (sum_y / count), (sum_z / count)]).reshape(-1, 1)
 
+# Given data representing the byte contents of a ascii stl file, return it's 3d object.
 def object_from_ascii_stl(data, object_name: str):
     lines = data.splitlines()
 
@@ -102,6 +107,7 @@ def object_from_ascii_stl(data, object_name: str):
     return object_3d(faces, object_name)
 
     
+# Given data representing the byte contents of a binary stl file, return it's 3d object.
 def object_from_binary_stl(data, objest_name):
     index = 80 # skip header
 

@@ -14,6 +14,7 @@ def sgn(x: float):
     else:
         return 1
 
+# Get a 1d list-like object of the x, y and z coordinates of a point, which is a column vector.
 def get_xyz(point):
     return point.ravel()
 
@@ -60,6 +61,7 @@ def align_p2(triangle: triangle_3d) -> tuple[triangle_3d, list[transformation_3d
 
     return triangle, [z_rotation, y_rotation]
 
+# Given a triangle with one side on the X axis, rotate it to lay on the XZ plane.
 def align_p3(triangle: triangle_3d) -> tuple[triangle_3d, list[transformation_3d]]:
     _, _, p3 = triangle.vertices
     
@@ -77,6 +79,7 @@ def align_p3(triangle: triangle_3d) -> tuple[triangle_3d, list[transformation_3d
 
     return triangle, [x_rotation]
 
+# Return a given triangle moved to the XZ plane with one side on the X axis, along with the neccesary transformations.
 def align_p1_p2_p3(triangle: triangle_3d) -> tuple[triangle_3d, list[transformation_3d]]:
     all_transformations = []
     triangle, tansformations = align_p1(triangle)

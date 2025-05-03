@@ -5,7 +5,7 @@ from dataclasses import dataclass
 import numpy as np
 
 class transformation_3d(ABC):
-    # @abstractmethod
+    @abstractmethod
     def to_css(self, unit: str = 'px'):
         return '{}' 
 
