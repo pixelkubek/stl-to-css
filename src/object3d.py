@@ -129,8 +129,6 @@ def object_from_binary_stl(data, objest_name):
             points.append([x, y, -z])
         
         faces.append(triangle_3d(*points))
-        print(faces[-1], file=sys.stderr)
-
         index += 2
 
     return object_3d(faces, objest_name)
