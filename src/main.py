@@ -67,7 +67,6 @@ if __name__ == '__main__':
     combined = f'''<!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="test.css">
         <style>
             {css}
         </style>
